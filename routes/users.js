@@ -3,15 +3,13 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  knex.raw('select * from humaninfo;')
-  .then(function (result) {
-    console.log(result);
+router.get('/', async function(req, res, next) {
+  try {
+    var result = await knex.raw('select * from humaninfo;');
     res.json(result[0]);
-  })
-  .catch(function (err) {
+  } catch (err) {
     res.json(err);
-  })
+  }
 });
 
 router.get('/:id', function(req, res, next) {

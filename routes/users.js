@@ -1,5 +1,6 @@
 var knex = require('../lib/knex');
 var express = require('express');
+//var app = express();
 var router = express.Router();
 
 /* GET users listing. */
@@ -23,4 +24,24 @@ router.get('/:id', function(req, res, next) {
     res.json(err);
   })
 });
+
+router.post('/post', async function (req, res) {
+  var result = req.body;
+  console.log(result);
+
+  var now = new Date();
+  var dateString = `${now.getHours()}:${now.getMinutes()}`;
+
+  var result = await knex.insert({
+    name: result.name,
+    date: result.date,
+    price: result.price,
+    time: dateString,
+  }).into('humaninfo');
+
+  console.log(result);
+
+  res.sendStatus(200);
+});
+
 module.exports = router;
